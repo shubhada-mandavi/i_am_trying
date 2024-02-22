@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+</head>
+<body>
+    <h1>Real-time Sensor Data</h1>
+    <div id="sensorData"></div>
+
+    <script>
+        // Function to fetch sensor data from the server
+        function fetchData() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var responseData = JSON.parse(xhr.responseText);
+                        document.getElementById('sensorData').innerHTML = 'Sensor Data: ' + responseData.sensor_data;
+                    } else {
+                        console.error('Error fetching data from server');
+                    }
+                }
+            };
+
+            // Adjust the URL to match your server and endpoint
+            xhr.open('GET', 'http://your-server-hostname/your-api-endpoint', true);
+            xhr.send();
+        }
+
+        // Fetch data initially and set an interval to update every minute
+        fetchData();
+        setInterval(fetchData, 60000);
+    </script>
+</body>
+</html>
